@@ -20,7 +20,6 @@
   "homepage": "https://github.com/djlahre97/college-finder#readme",
   "dependencies": {
     "axios": "^0.26.1",
-    "cheerio": "^1.0.0-rc.10",
-    "request": "^2.88.2"
+    "cheerio": "^1.0.0-rc.10"
   }
 }

@@ -8,6 +8,11 @@ const shiksha = require("./src/shiksha");
   console.log("Scraper running...");
   const data1 = await collegeSearch();
   const data2 = await shiksha();
+
+  if (!fs.existsSync("data")) {
+    fs.mkdirSync("data");
+  }
+
   const path1 = path.join(__dirname, "/data/college-search.json");
   const path2 = path.join(__dirname, "/data/shiksha.json");
   fs.writeFileSync(path1, JSON.stringify(data1));
