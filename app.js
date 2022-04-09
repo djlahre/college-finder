@@ -1,21 +1,20 @@
-const fs = require("fs");
-const path = require("path");
+const express = require("express");
+const mongoose = require("mongoose");
+const router = require("./src/routes");
 
-const collegeSearch = require("./src/college_search");
-const shiksha = require("./src/shiksha");
+const URL =
+  "mongodb+srv://djlahre:xIemfElBsGmdZag8@cluster0.xwbmm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
-(async () => {
-  console.log("Scraper running...");
-  const data1 = await collegeSearch();
-  const data2 = await shiksha();
+main()
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
 
-  if (!fs.existsSync("data")) {
-    fs.mkdirSync("data");
-  }
+async function main() {
+  await mongoose.connect(URL);
+}
 
-  const path1 = path.join(__dirname, "/data/college-search.json");
-  const path2 = path.join(__dirname, "/data/shiksha.json");
-  fs.writeFileSync(path1, JSON.stringify(data1));
-  fs.writeFileSync(path2, JSON.stringify(data2));
-  console.log("Scraping complete");
-})();
+const app = express();
+app.use("/", router);
+
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log(`Server running at ${PORT}`));
