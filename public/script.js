@@ -37,4 +37,11 @@ async function loadCollegeData() {
   }
 }
 
-async function scrapNewData() {}
+async function scrapNewData() {
+  scrapRef.classList.add("disabled");
+  const res1 = await axios.post("/scrap");
+  const res2 = await axios.post("/college");
+  scrapRef.classList.remove("disabled");
+  console.log(res1.data);
+  console.log(res2.data);
+}
