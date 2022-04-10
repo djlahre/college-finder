@@ -3,7 +3,7 @@ const path = require("path");
 const College = require("../models/College");
 
 module.exports.getCollege = async function (req, res) {
-  const colleges = await College.find();
+  const colleges = await College.find().limit(20);
   res.json({ data: colleges });
 };
 

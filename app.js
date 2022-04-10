@@ -14,7 +14,13 @@ async function main() {
 }
 
 const app = express();
-app.use("/", router);
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.sendFile("index.html");
+});
+
+app.use("/college", router);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running at ${PORT}`));

@@ -1,8 +1,9 @@
 const express = require("express");
 const { getCollege, postCollege } = require("../controllers/college");
-
+const scrap = require("../controllers/scrap");
 const router = express.Router();
 
-router.get("/college", getCollege).post("/college", postCollege);
+router.route("/").get(getCollege).post(postCollege);
+router.post("/scrap", scrap);
 
 module.exports = router;
