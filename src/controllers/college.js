@@ -3,18 +3,18 @@ const path = require("path");
 const College = require("../models/College");
 
 module.exports.getCollege = async function (req, res) {
-  const colleges = await College.find().limit(20);
+  const colleges = await College.find().limit(30);
   res.json({ data: colleges });
 };
 
-module.exports.postCollege = async function (req, res) {
-  const basePath = path.join(__dirname, "../../data");
-  const files = await fs.readdir(basePath);
-  for (let i = 0; i < files.length; i++) {
-    const filePath = path.join(basePath, files[i]);
-    const jsonData = await fs.readFile(filePath, { encoding: "utf-8" });
-    const jsObj = JSON.parse(jsonData);
-    await College.insertMany(jsObj);
-  }
-  res.json({ msg: "College data saved to mongodb", files });
+module.exports.uploadCollege = async function () {
+  const filePath = path.join(__dirname, "../../data/finalData.json");
+
+  const jsonData = await fs.readFile(filePath, { encoding: "utf-8" });
+  const dataArr = JSON.parse(jsonData);
+  const uniqueData = dataArr.filter(
+    (value, idx, arr) => arr.findIndex((v2) => v2.nirf === value.nirf) === idx
+  );
+  await College.deleteMany();
+  await College.insertMany(uniqueData);
 };

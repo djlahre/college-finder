@@ -13,21 +13,27 @@
     <title>College Finder</title>
   </head>
   <body>
+    <div class="modal justify-content-center align-items-center">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">College Finder</a>
-
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <button class="btn btn-light mr-4" id="scrap-new-data">
-              Scrap New Data
+            <button
+              class="btn btn-light mr-4 text-uppercase fw-bold"
+              id="scrap-and-refresh"
+            >
+              Scrap and refresh
             </button>
-            <button class="btn btn-warning" id="refresh">Refresh</button>
           </li>
         </ul>
       </div>
     </nav>
 
+    <h2 class="card p-2">Top 30 Colleges</h2>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -49,3 +55,13 @@
     <script src="./script.js"></script>
   </body>
 </html>
+
+<!-- <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div> -->

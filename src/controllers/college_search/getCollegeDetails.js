@@ -1,23 +1,11 @@
 const axios = require("axios").default;
 const cheerio = require("cheerio");
 
-const DEFAULT_VALUE = "No data";
-
-async function getCollgeDetails(url) {
+module.exports = async function (url) {
   const allCollege = [];
   const res = await axios.get(url);
   const $ = cheerio.load(res.data);
   $("#results ol li").each((i, el) => {
-    const college = {
-      nirf: 0,
-      course: "BTech",
-      name: "",
-      location: "",
-      rating: 0,
-      totalFees: 0,
-      averageSalary: 0,
-    };
-
     const nirf = $(el)
       .find(".first-rank-fift")
       .first()
@@ -27,7 +15,11 @@ async function getCollgeDetails(url) {
 
     const collegeName = $(el).find("h2").text().trim();
     const location = $(el).find("small").text().trim();
-    const rating = $(el).find(".media-right div").text().replace(/\s\s+/g, "");
+    const rating = $(el)
+      .find(".media-right div")
+      .text()
+      .replace(/\s\s+/g, "")
+      .trim();
 
     const totalFees = $(el)
       .find("dl :contains('Total Fees')")
@@ -47,18 +39,25 @@ async function getCollgeDetails(url) {
     const average = placements[3] * 100_000;
     // const highest = placements[8] * 100_000;
 
-    college.nirf = nirf || DEFAULT_VALUE;
-    college.name = collegeName;
-    college.location = location;
-    college.rating = rating || DEFAULT_VALUE;
-    college.totalFees = parseInt(totalFees) || DEFAULT_VALUE;
-    college.averageSalary = average || DEFAULT_VALUE;
-
-    if (collegeName.length != 0) {
-      allCollege.push(college);
+    if (
+      nirf &&
+      !nirf.includes("-") &&
+      collegeName &&
+      location &&
+      rating &&
+      totalFees &&
+      average
+    ) {
+      const collegeDetail = {};
+      collegeDetail.course = "BTech";
+      collegeDetail.nirf = nirf;
+      collegeDetail.name = collegeName;
+      collegeDetail.location = location;
+      collegeDetail.rating = rating;
+      collegeDetail.totalFees = parseInt(totalFees);
+      collegeDetail.averageSalary = parseInt(average);
+      allCollege.push(collegeDetail);
     }
   });
   return allCollege;
-}
-
-module.exports = getCollgeDetails;
+};

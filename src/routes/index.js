@@ -1,8 +1,15 @@
 const express = require("express");
-const { getCollege, postCollege } = require("../controllers/college");
+const scrapper = require("../controllers/scrapper");
+const { getCollege, uploadCollege } = require("../controllers/college");
 
 const router = express.Router();
 
-router.route("/").get(getCollege).post(postCollege);
+router.get("/", getCollege).post("/scrap-and-upload", scrapAndUpload);
+
+async function scrapAndUpload(req, res) {
+  await scrapper();
+  await uploadCollege();
+  res.json({ msg: "scrap and upload completed" });
+}
 
 module.exports = router;

@@ -1,8 +1,6 @@
 const axios = require("axios").default;
 const cheerio = require("cheerio");
 
-const DEFAULT_VALUE = "No data";
-
 async function getCollgeDetails(url) {
   const allCollege = [];
 
@@ -13,15 +11,6 @@ async function getCollgeDetails(url) {
     const val = $(ele).find(".rank_tuplev1");
 
     for (let i = 0; i < val.length; i++) {
-      const collegeDetail = {
-        nirf: 0,
-        course: "BTech",
-        name: "",
-        location: "",
-        rating: 0,
-        totalFees: 0,
-        averageSalary: 0,
-      };
       const nirf = $(val[i]).find(".circleText").text().trim();
       const name = $(val[i]).find(".f14_bold").text().trim();
       const location = $("h1[class='h1 clr_0']").text().split(" ")[4];
@@ -42,13 +31,25 @@ async function getCollgeDetails(url) {
           .trim()
           .split(" ")[3] * 100000;
 
-      collegeDetail.nirf = nirf || DEFAULT_VALUE;
-      collegeDetail.name = name || DEFAULT_VALUE;
-      collegeDetail.location = location || DEFAULT_VALUE;
-      collegeDetail.rating = rating || DEFAULT_VALUE;
-      collegeDetail.totalFees = fees || DEFAULT_VALUE;
-      collegeDetail.averageSalary = salary || DEFAULT_VALUE;
-      allCollege.push(collegeDetail);
+      if (
+        nirf &&
+        !nirf.includes("-") &&
+        name &&
+        location &&
+        rating &&
+        fees &&
+        salary
+      ) {
+        const collegeDetail = {};
+        collegeDetail.course = "BTech";
+        collegeDetail.nirf = nirf;
+        collegeDetail.name = name;
+        collegeDetail.location = location;
+        collegeDetail.rating = rating;
+        collegeDetail.totalFees = parseInt(fees);
+        collegeDetail.averageSalary = parseInt(salary);
+        allCollege.push(collegeDetail);
+      }
     }
   });
 
