@@ -3,9 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = require("./src/routes");
 
-const user = process.env.DB_USER;
-const password = process.env.DB_PASSWORD;
-const URL = `mongodb+srv://${user}:${password}@cluster0.xwbmm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const URL = process.env.MONGODB_URL;
 
 mongoose
   .connect(URL)
